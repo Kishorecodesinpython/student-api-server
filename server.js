@@ -1,21 +1,28 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const path = require('path');
 const connectDB = require('./config/db');
 
-// Load environment variables from .env file
+// ✅ Load environment variables from .env file
 dotenv.config();
 
-// Connect to MongoDB
+// ✅ Connect to MongoDB
 connectDB();
 
 const app = express();
-app.use(cors());
-app.use(express.json()); // Middleware to parse JSON
 
-// Routes
+// ✅ Middleware
+app.use(cors()); // Enable Cross-Origin Resource Sharing
+app.use(express.json()); // Parse incoming JSON requests
+
+// ✅ Serve static files (HTML frontend) from /public folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+// ✅ API routes for student operations
 app.use('/api/students', require('./routes/studentRoutes'));
 
+// ✅ Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);
