@@ -22,8 +22,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ✅ API routes for student operations
 app.use('/api/students', require('./routes/studentRoutes'));
 
-// ✅ Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
-});
+// ✅ Export app for testing
+module.exports = app;
+
+// ✅ Start server only if not in test mode
+if (process.env.NODE_ENV !== 'test') {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server is running on port ${PORT}`);
+  });
+}
